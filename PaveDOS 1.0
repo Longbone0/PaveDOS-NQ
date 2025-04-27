@@ -1,0 +1,58 @@
+import os
+import time
+
+class PaveDOS:
+    def __init__(self):
+        self.running = True
+        self.commands = {
+            "help": self.show_help,
+            "echo": self.echo_text,
+            "clear": self.clear_screen,
+            "dir": self.show_directory,
+            "ver": self.show_version,
+            "test": self.test_typing,
+            "exit": self.exit_program
+        }
+        print("PaveDOS 1.0 - Command Line Interface")
+        print("Type 'help' to see available commands.")
+
+    def show_help(self):
+        print("Available commands:")
+        for cmd in self.commands:
+            print(f"- {cmd}")
+
+    def echo_text(self):
+        text = input("Enter text to echo: ")
+        print(text)
+
+    def clear_screen(self):
+        os.system("cls" if os.name == "nt" else "clear")
+
+    def show_directory(self):
+        print("\n".join(os.listdir()))
+
+    def show_version(self):
+        print("PaveDOS 1.0 - A simulated command-line environment")
+
+    def test_typing(self):
+        text = input("Enter text to be typed back letter by letter: ")
+        for char in text:
+            print(char, end="", flush=True)
+            time.sleep(0.05)  # Adjust typing speed here
+        print()  # Move to a new line after typing is complete
+
+    def exit_program(self):
+        print("Exiting PaveDOS...")
+        self.running = False
+
+    def run(self):
+        while self.running:
+            command = input("PaveDOS> ").strip().lower()
+            if command in self.commands:
+                self.commands[command]()
+            else:
+                print("Invalid command. Type 'help' for a list of available commands.")
+
+if __name__ == "__main__":
+    PaveDOS().run()
+
